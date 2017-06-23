@@ -1,13 +1,12 @@
 DROP TABLE IF EXISTS users CASCADE;
 
 CREATE TABLE IF NOT EXISTS users (
-  id int NOT NULL AUTO_INCREMENT ,
+  id SERIAL NOT NULL PRIMARY KEY,
   name varchar(255) NOT NULL,
   email varchar(255) NOT NULL
-  PRIMARY KEY (ID)
 );
 
-INSERT INTO Persons (User, email)
+INSERT INTO Users (name, email)
 VALUES
 ('John Smith', 'john@smith.com'),
 ('Dave Davis', 'dave@davis.com'),

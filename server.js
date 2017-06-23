@@ -1,10 +1,10 @@
 const express = require('express'),
       bodyParser = require('body-parser'),
-      cors = require('cors'),
       massive = require('massive'),
-      connectionString = 'postgres://postgres:1234a@localhost:3000/assessbox';
+      cors = require('cors');
+      connectionString = "postgres://postgres:1234a@localhost/sqlfun";
 
-var app = express();
+var app = module.exports = express();
 
 app.use(bodyParser.json())
 app.use(cors());
@@ -12,34 +12,34 @@ app.use(cors());
 // You need to complete the information below to connect
 // to the assessbox database on your postgres server.
 
-massive(connectionString).then(function(db) {
-  app.set('db', dbInstance);
-  // Initialize user table and vehicle table.
-  dbInstance.init_tables.user_create_seed().then( response => {
-    console.log('User table init');
-    dbInstance.init_tables.vehicle_create_seed().then( response => {
-      console.log('Vehicle table init');
+massive(connectionString).then(function(instance) {
+    app.set('db', instance);
+    // Initialize user table and vehicle table.
+    instance.createUser().then( function(response) {
+
+      console.log('Users table init ready');
+
+    instance.createItem().then( function(response) {
+      console.log('Vehicles table init ready');
     })
-  })
+    })
 })
 
 
-// ===== Build enpoints below ============
-
 var users = require('./mainCtrl')
-
+var vehicles = require('./vehicles')
+//
 app.get('/api/users', users.index )
-// app.get('/api/vehicles')
+app.get('/api/vehicles', vehicles.index)
 //
-// app.post('/api/users')
+app.post('/api/users', users.create)
+app.post('/api/vehicles', vehicles.create)
+
+app.get('/api/user/:userId/vehiclecount', vehicles.show)
+
+app.get('/api/user/:userId/vehicle', users.owned )
 //
-// app.post('/api/vehicles')
-//
-// app.get('/api/user/:userId/vehiclecount')
-//
-// app.get('/api/user/:userId/vehicles')
-//
-// app.get('/api/user/:userId/vehicle')
+// app.get('/api/user/:userId/user')
 //
 // app.get('/api/vehicle')
 //
@@ -54,7 +54,7 @@ app.get('/api/users', users.index )
 
 
 // ===== Do not change port ===============
-const port = 3000;
-app.listen(port, () => {
-  console.log('Listening on port ', port);
+const post = 3000
+app.listen( post , function(){
+  console.log("Successfully listening on " + post)
 })

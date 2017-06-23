@@ -1,11 +1,11 @@
 DROP TABLE IF EXISTS vehicles;
 
 CREATE TABLE IF NOT EXISTS vehicles (
-  id int NOT NULL AUTO_INCREMENT ,
+  id SERIAL PRIMARY KEY,
   make varchar(255) NOT NULL,
   model varchar(255) NOT NULL,
-  year int
-  owner_id int NOT NULL,
+  year int,
+  owner_id int NOT NULL
 );
 
 INSERT INTO Vehicles (make, model, year, owner_id)
