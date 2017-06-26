@@ -14,7 +14,12 @@ module.exports = {
       })
     },
     owned: function(req, res) {
-      res.status(200).json(res)
+      var dbInstance = req.app.get('db');
+    dbInstance.vehicleById(req.params.userId).then(users => {
+      console.log(users)
+      // users.push(req.params)
+      res.status(200).json(users);
+    })
     }
 
   }

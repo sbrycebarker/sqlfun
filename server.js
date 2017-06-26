@@ -10,8 +10,6 @@ app.use(bodyParser.json())
 app.use(cors());
 
 // You need to complete the information below to connect
-// to the assessbox database on your postgres server.
-
 massive(connectionString).then(function(instance) {
     app.set('db', instance);
     // Initialize user table and vehicle table.
@@ -33,17 +31,16 @@ app.get('/api/users', users.index )
 app.get('/api/vehicles', vehicles.index)
 //
 app.post('/api/users', users.create)
+
 app.post('/api/vehicles', vehicles.create)
 
 app.get('/api/user/:userId/vehiclecount', vehicles.show)
 
 app.get('/api/user/:userId/vehicle', users.owned )
+
+app.get('/api/vehicle', vehicles.vehicleQ)
 //
-// app.get('/api/user/:userId/user')
-//
-// app.get('/api/vehicle')
-//
-// app.get('/api/newervehiclesbyyear')
+app.get('/api/newervehiclesbyyear', vehicles.year)
 //
 // app.put('/api/vehicle/:vehicleId/user/:userId')
 //
