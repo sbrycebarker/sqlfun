@@ -55,16 +55,20 @@ module.exports = {
   },
   year: function(req, res) {
     const db = req.app.get('db')
-    var carsByYear = [];
     db.vehicleByYear().then(data => {
+      var carsByYear = data
       for (var i = 0; i < data.length; i++) {
-        var car = data[i];
-        carsByYear.push(car)
-        db.getUserById(car.owner_id).then(user=>{
-
+        car = data[i]
+        id = data[i].owner_id
+        car.name = id
+        console.log("car", data[i])
+        db.getUserById(id).then( user =>{
+          console.log("user", user)
+          if (i === data.length ) {
+            res.status(200).json(data)
+          }
         })
       }
-      console.log(carsByYear)
     })
 
   }
